@@ -45,6 +45,9 @@ namespace WERViewer
            
         }
 
+        /// <summary>
+        /// <see cref="System.Windows.Window"/> event
+        /// </summary>
         async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.Title = $"WER Viewer - v{App.GetCurrentAssemblyVersion()}";
@@ -57,19 +60,6 @@ namespace WERViewer
 
             // Check if position is on any screen
             this.RestorePosition(_windowLeft, _windowTop, _windowWidth, _windowHeight);
-
-            #region [Async UI pattern]
-            //var url = await _weatherService.GetForecastUrlAsync(_latitude, _longitude);
-            //if (url != null)
-            //{
-            //    var wind = await LoadWindSpeed(url.WeeklyForecast);
-            //    await Dispatcher.InvokeAsync(() =>
-            //    {
-            //        msgBar.BarText = $"🔔 Setting background wind speed to {wind}";
-            //        spProgress.Visibility = Visibility.Visible;
-            //    }, System.Windows.Threading.DispatcherPriority.Background);
-            //}
-            #endregion
 
             btnRefresh.IsEnabled = false;
             spProgress.Visibility = Visibility.Visible;
@@ -93,18 +83,19 @@ namespace WERViewer
             
         }
 
+        /// <summary>
+        /// <see cref="System.Windows.Window"/> event
+        /// </summary>
         void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (e.NewSize.IsInvalidOrZero())
                 return;
-
             Debug.WriteLine($"[INFO] New size: {e.NewSize.Width:N0},{e.NewSize.Height:N0}");
-
-            // Add in some margin
-            //spBackground.Width = e.NewSize.Width - 10;
-            //spBackground.Height = e.NewSize.Height - 10;
         }
 
+        /// <summary>
+        /// <see cref="System.Windows.Window"/> event
+        /// </summary>
         void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ConfigManager.Set("WindowTop", value: this.Top.IsInvalid() ? 200d : this.Top);
