@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:WERViewer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="MainWindow"
-    Width="1000"
+    Width="1200"
     Height="800"
     Activated="Window_Activated"
     Background="#181818"
@@ -21,8 +21,8 @@
 
     <Grid Margin="10" Background="{StaticResource MainBackground}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="6*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
@@ -40,14 +40,15 @@
                 ItemsSource="{Binding Reports}"
                 SelectedItem="{Binding SelectedReport}" />
             <Image
-                Grid.Row="0"
                 x:Name="imgEmpty"
+                Grid.Row="0"
+                Width="200"
+                Margin="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Width="200"
-                Visibility="Hidden"
-                Margin="0"
-                Source="/Assets/empty.png" />
+                Opacity="0.8"
+                Source="/Assets/empty.png"
+                Visibility="Hidden" />
             <Button
                 x:Name="btnRefresh"
                 Grid.Row="1"
@@ -59,10 +60,11 @@
 
         <!--  Details  -->
         <ScrollViewer Grid.Column="1" Margin="8">
-            <StackPanel Orientation="Vertical">
+            <Grid>
                 <ctrl:Spinner
                     x:Name="spProgress"
-                    Width="260"
+                    Grid.RowSpan="2"
+                    Width="280"
                     Height="30"
                     Margin="0,-3,0,0"
                     HorizontalAlignment="Center"
@@ -75,11 +77,11 @@
                     ChaseRingRadius="0"
                     ChaseTailLength="4"
                     DotBrush="{StaticResource ProgressBrushLinear}"
-                    DotCount="12"
-                    DotSize="16"
-                    ProgressHighlightWidth="2"
+                    DotCount="14"
+                    DotSize="20"
+                    ProgressHighlightWidth="3"
                     ProgressIndeterminate="True"
-                    ProgressSpacing="15"
+                    ProgressSpacing="18"
                     ProgressSweepSpeed="18"
                     RenderMode="AnimatePositions"
                     RenderShape="Progress"
@@ -88,51 +90,105 @@
                     WaveDuration="1.1"
                     WindAmplitude="1"
                     WindFrequency="0.5" />
-                <TextBlock
-                    FontSize="20"
-                    FontWeight="Bold"
-                    Foreground="Silver"
-                    Text="{Binding SelectedReport.AppName}" />
-                <TextBlock
-                    Margin="0,5"
-                    Foreground="White"
-                    Text="{Binding SelectedReport.EventType}" />
-                <TextBlock
-                    Margin="0,5"
-                    Foreground="White"
-                    Text="{Binding SelectedReport.EventTime}" />
-                <TextBlock
-                    Margin="0,5"
-                    Foreground="White"
-                    Text="{Binding SelectedReport.ReportTime}" />
-                <TextBlock
-                    Margin="0,5"
-                    Foreground="White"
-                    Text="{Binding SelectedReport.FaultModule}" />
-                <TextBlock
-                    Margin="0,5"
-                    Foreground="White"
-                    Text="{Binding SelectedReport.ExceptionCode}" />
-                <TextBlock
-                    Margin="0,10"
-                    FontWeight="Bold"
-                    Foreground="SkyBlue"
-                    Text="Raw Values:" />
-                <ItemsControl ItemsSource="{Binding SelectedReport.RawValues}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock
-                                    Width="180"
-                                    FontWeight="Bold"
-                                    Foreground="Gray"
-                                    Text="{Binding Key}" />
-                                <TextBlock Foreground="White" Text="{Binding Value}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Foreground="Silver"
+                        Text="{Binding SelectedReport.AppName}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,5"
+                            Foreground="Gray"
+                            Text="EventType:" />
+                        <TextBlock
+                            Margin="5,5"
+                            Foreground="White"
+                            Text="{Binding SelectedReport.EventType}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,5"
+                            Foreground="Gray"
+                            Text="EventTime:" />
+                        <TextBlock
+                            Margin="5,5"
+                            Foreground="White"
+                            Text="{Binding SelectedReport.EventTime}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,5"
+                            Foreground="Gray"
+                            Text="UploadTime:" />
+                        <TextBlock
+                            Margin="5,5"
+                            Foreground="White"
+                            Text="{Binding SelectedReport.UploadTime}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,5"
+                            Foreground="Gray"
+                            Text="ReportType:" />
+                        <TextBlock
+                            Margin="5,5"
+                            Foreground="White"
+                            Text="{Binding SelectedReport.ReportType}" />
+                    </StackPanel>
+                    <TextBlock
+                        Margin="0,5"
+                        Foreground="White"
+                        Text="{Binding SelectedReport.ReportDescription}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,5"
+                            Foreground="Gray"
+                            Text="Hang Info:" />
+                        <TextBlock
+                            Margin="5,5"
+                            Foreground="White"
+                            Text="{Binding SelectedReport.HangInfo.Category}" />
+                        <TextBlock
+                            Margin="5,5"
+                            Foreground="White"
+                            Text="{Binding SelectedReport.HangInfo.Reason}" />
+                        <TextBlock
+                            Margin="5,5"
+                            Foreground="White"
+                            Text="{Binding SelectedReport.HangInfo.State}" />
+                    </StackPanel>
+                    <!--
+                    <TextBlock
+                        Margin="0,5"
+                        Foreground="White"
+                        Text="{Binding SelectedReport.FaultModule}" />
+                    <TextBlock
+                        Margin="0,5"
+                        Foreground="White"
+                        Text="{Binding SelectedReport.ExceptionCode}" />
+                    -->
+                    <TextBlock
+                        Margin="0,10"
+                        FontWeight="Bold"
+                        Foreground="SkyBlue"
+                        Text="Raw Values:" />
+                    <ItemsControl ItemsSource="{Binding SelectedReport.RawValues}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Width="180"
+                                        FontWeight="Bold"
+                                        Foreground="Gray"
+                                        Text="{Binding Key}" />
+                                    <TextBlock Foreground="White" Text="{Binding Value}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Grid>
         </ScrollViewer>
     </Grid>
 

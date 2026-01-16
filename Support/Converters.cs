@@ -141,7 +141,7 @@ namespace WERViewer
         }
     }
 
-    public class WeatherIconFallbackConverter : IValueConverter
+    public class IconFallbackConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -13,6 +13,7 @@ namespace WERViewer
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        #region [Properties]
         CancellationTokenSource _cts;
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -65,6 +66,7 @@ namespace WERViewer
                 }
             }
         }
+        #endregion
 
         public MainViewModel()
         {
@@ -75,10 +77,10 @@ namespace WERViewer
 
         public int GetCount() => Reports.Count;
 
-        public async Task LoadAsync()
+        public async Task LoadAsync(string rootPath)
         {
             Reports.Clear();
-            var items = await _service.LoadReportsAsync();
+            var items = await _service.LoadReportsAsync(rootPath);
             foreach (var r in items)
             {
                 if (_cts.IsCancellationRequested)

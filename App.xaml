@@ -5,12 +5,15 @@
     xmlns:local="clr-namespace:WERViewer"
     StartupUri="MainWindow.xaml">
     <Application.Resources>
+
+        <!--#region [Converters]-->
         <local:BoolToVisibilityConverter x:Key="boolToVisibility" />
-        <local:WeatherIconFallbackConverter x:Key="iconFallback" />
+        <local:IconFallbackConverter x:Key="iconFallback" />
+        <!--#endregion-->
 
         <ImageBrush
             x:Key="MainBackground"
-            ImageSource="Assets/logo.png"
+            ImageSource="Assets/logo2.png"
             Opacity="0.08"
             Stretch="None" />
 

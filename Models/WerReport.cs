@@ -19,8 +19,24 @@ namespace WERViewer
         public string FaultModule { get; set; }
         public string ExceptionCode { get; set; }
         public DateTime ReportTime { get; set; }
+        public string UploadTime { get; set; }
         public string ReportPath { get; set; }
+        public string ReportType { get; set; }
+        public string ReportDescription { get; set; }
+        public HangType HangInfo { get; set; } = new HangType();
         public Dictionary<string, string> RawValues { get; set; } = new Dictionary<string, string>();
     }
 
+    public class HangType
+    {
+        //"[Category] 0x{highByte:X2}: {GetCategoryDescription(highByte)}");
+        //"[Reason]   0x{midHigh:X2}: {GetReasonDescription(midHigh)}");
+        //"[State]    0x{midLow:X2}:  {GetStateDescription(midLow)}");
+        //"[Flags]    0x{lowByte:X2}: Additional metadata");
+
+        public string Category { get; set; } 
+        public string Reason { get; set; }
+        public string State { get; set; }
+        public string Flags { get; set; }
+    }
 }

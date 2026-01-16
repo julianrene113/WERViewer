@@ -21,7 +21,7 @@ using System.Windows.Shapes;
 namespace WERViewer
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// UI for Windows Error Reporting 
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -30,10 +30,9 @@ namespace WERViewer
         double _windowTop = 0;
         double _windowWidth = 0;
         double _windowHeight = 0;
-
-        CancellationTokenSource _cts = new CancellationTokenSource();
+        string _reportPath = "";
         #endregion
-
+        
         readonly MainViewModel _vm = new MainViewModel();
 
         public MainWindow()
@@ -42,9 +41,12 @@ namespace WERViewer
             //this.DataContext = this; // ⇦ very important for INotifyPropertyChanged!
             this.DataContext = _vm; // ⇦ very important for INotifyPropertyChanged!
             Debug.WriteLine($"[INFO] Application version {App.GetCurrentAssemblyVersion()}");
-           
+
+            var cvrt = 67246336;
+            Debug.WriteLine($"[INFO] {cvrt:X8}");
         }
 
+        #region [Events]
         /// <summary>
         /// <see cref="System.Windows.Window"/> event
         /// </summary>
@@ -53,9 +55,9 @@ namespace WERViewer
             this.Title = $"WER Viewer - v{App.GetCurrentAssemblyVersion()}";
             _windowTop = ConfigManager.Get("WindowTop", defaultValue: 200d);
             _windowLeft = ConfigManager.Get("WindowLeft", defaultValue: 250d);
-            _windowWidth = ConfigManager.Get("WindowWidth", defaultValue: 1000d);
+            _windowWidth = ConfigManager.Get("WindowWidth", defaultValue: 1200d);
             _windowHeight = ConfigManager.Get("WindowHeight", defaultValue: 800d);
-
+            _reportPath = ConfigManager.Get("ReportPath", defaultValue: @"C:\ProgramData\Microsoft\Windows\WER\ReportArchive");
             _vm.Status = $"🔔 Restoring window position";
 
             // Check if position is on any screen
@@ -63,10 +65,10 @@ namespace WERViewer
 
             btnRefresh.IsEnabled = false;
             spProgress.Visibility = Visibility.Visible;
-            await _vm.LoadAsync();
+            await _vm.LoadAsync(_reportPath);
             await Dispatcher.InvokeAsync(async () =>
             {
-                await Task.Delay(800);
+                await Task.Delay(1000);
                 btnRefresh.IsEnabled = true;
                 spProgress.Visibility = Visibility.Hidden;
                 if (_vm.GetCount() == 0)
@@ -98,13 +100,14 @@ namespace WERViewer
         /// </summary>
         void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            ConfigManager.Set("ReportPath", value: _reportPath);
             ConfigManager.Set("WindowTop", value: this.Top.IsInvalid() ? 200d : this.Top);
             ConfigManager.Set("WindowLeft", value: this.Left.IsInvalid() ? 250d : this.Left);
             if (!this.Width.IsInvalid() && this.Width >= 800) { ConfigManager.Set("WindowWidth", value: this.Width); }
-            else { ConfigManager.Set("WindowWidth", value: 1000); } // restore default
+            else { ConfigManager.Set("WindowWidth", value: 1200); } // restore default
             if (!this.Height.IsInvalid() && this.Height >= 600) { ConfigManager.Set("WindowHeight", value: this.Height); }
             else { ConfigManager.Set("WindowHeight", value: 800); } // restore default
-            _cts?.Cancel(); // Signal any loops/timers that it's time to shut it down.
+            _vm?.Cancel(); // Signal any loops/timers that it's time to shut it down.
         }
 
         /// <summary>
@@ -124,10 +127,10 @@ namespace WERViewer
         {
             btnRefresh.IsEnabled = false;
             spProgress.Visibility = Visibility.Visible;
-            await _vm.LoadAsync();
+            await _vm.LoadAsync(_reportPath);
             await Dispatcher.InvokeAsync(async () =>
             {
-                await Task.Delay(800);
+                await Task.Delay(1000);
                 btnRefresh.IsEnabled = true;
                 spProgress.Visibility = Visibility.Hidden;
                 if (_vm.GetCount() == 0)
@@ -142,5 +145,6 @@ namespace WERViewer
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);
         }
+        #endregion
     }
 }
