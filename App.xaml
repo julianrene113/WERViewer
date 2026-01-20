@@ -13,8 +13,8 @@
 
         <ImageBrush
             x:Key="MainBackground"
-            ImageSource="Assets/logo2.png"
-            Opacity="0.08"
+            ImageSource="Assets/logo3.png"
+            Opacity="0.07"
             Stretch="None" />
 
         <!--#region [Colors and Brushes]-->

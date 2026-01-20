@@ -35,7 +35,16 @@ namespace WERViewer
                     reports.Add(parsed);
             }
 
-            return reports.OrderByDescending(r => r.EventTime).ToList();
+            try
+            {
+                // There should always be an EventTime.
+                return reports.OrderByDescending(r => DateTime.Parse(r.EventTime)).ToList();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"LoadReportsAsync: {ex.Message}");
+                return reports;
+            }
         }
 
         async Task<WerReport> ParseWerFileAsync(string file)
@@ -57,7 +66,7 @@ namespace WERViewer
                 #region [Additional Hang Type Evaluation]
                 if (value.StartsWith("Hang Type"))
                 { 
-                    // Get the value to convert
+                    // Get the key's value to convert
                     var tmp = lines[index + 1].Split(delimiter, 2);
                     var hkey = tmp[0].Trim();
                     var hvalue = tmp[1].Trim();
@@ -65,7 +74,6 @@ namespace WERViewer
                     {
                         report.HangInfo = WerHangAnalyzer.AnalyzeHangType(ht);
                     }
-                   
                 }
                 #endregion
 
@@ -84,6 +92,10 @@ namespace WERViewer
                                 report.EventTime = $"{localDate}";
                             }
                             catch { report.EventTime = value; }
+                        }
+                        else
+                        {
+                            report.EventTime = $"{DateTime.Now}";
                         }
                         break;
                     case "NsAppName":

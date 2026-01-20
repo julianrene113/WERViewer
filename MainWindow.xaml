@@ -13,7 +13,7 @@
     Background="#181818"
     Closing="Window_Closing"
     Deactivated="Window_Deactivated"
-    Icon="/Assets/logo.ico"
+    Icon="/Assets/logo3sm.ico"
     Loaded="Window_Loaded"
     SizeChanged="Window_SizeChanged"
     WindowStartupLocation="Manual"
@@ -27,7 +27,8 @@
 
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="16*" />
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="2*" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
             <!--  List of reports  -->
@@ -49,9 +50,19 @@
                 Opacity="0.8"
                 Source="/Assets/empty.png"
                 Visibility="Hidden" />
+            <TextBlock
+                Grid.Row="1"
+                Padding="4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontSize="12"
+                FontWeight="Regular"
+                TextWrapping="WrapWithOverflow"
+                Foreground="SkyBlue"
+                Text="{Binding Status}" />
             <Button
                 x:Name="btnRefresh"
-                Grid.Row="1"
+                Grid.Row="2"
                 Click="Button_Click"
                 Content="Refresh"
                 FontSize="16"
@@ -136,10 +147,20 @@
                             Foreground="White"
                             Text="{Binding SelectedReport.ReportType}" />
                     </StackPanel>
-                    <TextBlock
-                        Margin="0,5"
-                        Foreground="White"
-                        Text="{Binding SelectedReport.ReportDescription}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,5"
+                            Foreground="White"
+                            Text="{Binding SelectedReport.FriendlyEventName}" />
+                        <TextBlock
+                            Margin="5,5"
+                            Foreground="Gray"
+                            Text="–" />
+                        <TextBlock
+                            Margin="0,5"
+                            Foreground="White"
+                            Text="{Binding SelectedReport.ReportDescription}" />
+                    </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                             Margin="0,5"

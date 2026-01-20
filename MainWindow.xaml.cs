@@ -38,8 +38,7 @@ namespace WERViewer
         public MainWindow()
         {
             InitializeComponent();
-            //this.DataContext = this; // ⇦ very important for INotifyPropertyChanged!
-            this.DataContext = _vm; // ⇦ very important for INotifyPropertyChanged!
+            this.DataContext = _vm; // ⇦ context must be set for INotifyPropertyChanged
             Debug.WriteLine($"[INFO] Application version {App.GetCurrentAssemblyVersion()}");
 
             var cvrt = 67246336;
@@ -53,11 +52,14 @@ namespace WERViewer
         async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.Title = $"WER Viewer - v{App.GetCurrentAssemblyVersion()}";
+
+            string progDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            Debug.WriteLine($"[INFO] User's CommonApplicationData location is \"{progDataPath}\"");
             _windowTop = ConfigManager.Get("WindowTop", defaultValue: 200d);
             _windowLeft = ConfigManager.Get("WindowLeft", defaultValue: 250d);
             _windowWidth = ConfigManager.Get("WindowWidth", defaultValue: 1200d);
             _windowHeight = ConfigManager.Get("WindowHeight", defaultValue: 800d);
-            _reportPath = ConfigManager.Get("ReportPath", defaultValue: @"C:\ProgramData\Microsoft\Windows\WER\ReportArchive");
+            _reportPath = ConfigManager.Get("ReportPath", defaultValue: System.IO.Path.Combine(progDataPath, @"Microsoft\Windows\WER\ReportArchive"));
             _vm.Status = $"🔔 Restoring window position";
 
             // Check if position is on any screen
@@ -68,17 +70,17 @@ namespace WERViewer
             await _vm.LoadAsync(_reportPath);
             await Dispatcher.InvokeAsync(async () =>
             {
-                await Task.Delay(1000);
+                await Task.Delay(1000); // prevent spamming
                 btnRefresh.IsEnabled = true;
                 spProgress.Visibility = Visibility.Hidden;
                 if (_vm.GetCount() == 0)
                 {
-                    _vm.Status = "⚠ No WER reports found.";
+                    _vm.Status = $"⚠ No WER reports found{Environment.NewLine}{_reportPath}";
                     imgEmpty.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    _vm.Status = $"{_vm.GetCount()} WER reports found";
+                    _vm.Status = $"{_vm.GetCount()} WER reports found{Environment.NewLine}{_reportPath}";
                     imgEmpty.Visibility = Visibility.Hidden;
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);
@@ -125,22 +127,23 @@ namespace WERViewer
         /// </summary>
         async void Button_Click(object sender, RoutedEventArgs e)
         {
+            _vm.Status = $"Fetching reports…";
             btnRefresh.IsEnabled = false;
             spProgress.Visibility = Visibility.Visible;
             await _vm.LoadAsync(_reportPath);
             await Dispatcher.InvokeAsync(async () =>
             {
-                await Task.Delay(1000);
+                await Task.Delay(1000); // prevent spamming
                 btnRefresh.IsEnabled = true;
                 spProgress.Visibility = Visibility.Hidden;
                 if (_vm.GetCount() == 0)
                 {
-                    _vm.Status = $"⚠ No WER reports found";
+                    _vm.Status = $"⚠ No WER reports found{Environment.NewLine}{_reportPath}";
                     imgEmpty.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    _vm.Status = $"{_vm.GetCount()} WER reports found";
+                    _vm.Status = $"{_vm.GetCount()} WER reports found{Environment.NewLine}{_reportPath}";
                     imgEmpty.Visibility = Visibility.Hidden;
                 }
             }, System.Windows.Threading.DispatcherPriority.Background);
